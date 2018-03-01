@@ -1,13 +1,34 @@
 const database = require("./database-connection");
 
 module.exports = {
-    list(){
+    returnFirstItem(arr) {
+        return arr[0];
     },
-    read(id){
+    list() {
+        return database('coffee')
     },
-    create(coffee){
-    update(id, coffee){
+    read(id) {
+        return database('coffee')
+            .where('id', id)
+            .then(this.returnFirstItem)
     },
-    delete(id){
+    create(coffee) {
+        return database('coffee')
+            .insert(coffee)
+            .returning('*')
+            .then(this.returnFirstItem)
+    },
+    update(id, coffee) {
+        return database('coffee')
+            .update(coffee)
+            .where('id', id)
+            .returning('*')
+            .then(this.returnFirstItem)
+
+    },
+    delete(id) {
+        return database('coffee')
+            .delete()
+            .where('id', id)
     }
 };
